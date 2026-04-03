@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Security Projects</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f9f8f5;
+    --surface: #ffffff;
+    --border: rgba(0,0,0,0.1);
+    --border-hover: rgba(0,0,0,0.2);
+    --text-primary: #1a1a18;
+    --text-secondary: #5f5e5a;
+    --text-tertiary: #888780;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a18;
+      --surface: #222220;
+      --border: rgba(255,255,255,0.1);
+      --border-hover: rgba(255,255,255,0.2);
+      --text-primary: #e8e6de;
+      --text-secondary: #9c9a92;
+      --text-tertiary: #6b6a64;
+    }
+    .badge-beg { background: #27500A !important; color: #C0DD97 !important; }
+    .badge-int { background: #633806 !important; color: #FAC775 !important; }
+    .badge-adv { background: #791F1F !important; color: #F7C1C1 !important; }
+  }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    padding: 2rem 1.5rem;
+    min-height: 100vh;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+  }
+
+  .filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .filter-btn {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border-hover);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--surface);
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: border-color 0.15s;
+  }
+
+  .card:hover { border-color: var(--border-hover); }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .card-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .badge-beg { background: #EAF3DE; color: #27500A; }
+  .badge-int { background: #FAEEDA; color: #633806; }
+  .badge-adv { background: #FCEBEB; color: #791F1F; }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+
+  .card-meta {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    border: 0.5px solid var(--border);
+    color: var(--text-tertiary);
+    background: var(--bg);
+  }
+
+  .phase-pill {
+    font-size: 11px;
+    padding: 1px 7px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border);
+    color: var(--text-tertiary);
+  }
+
+  .card-footer {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .action-btn {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: var(--radius-md);
+    border: 0.5px solid var(--border-hover);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+    transition: all 0.15s;
+  }
+
+  .action-btn:hover {
+    background: var(--bg);
+    color: var(--text-primary);
+  }
+
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<h1>Cloud Security Projects</h1>
+<p class="subtitle">10 hands-on projects — from beginner scripts to advanced attack chain automation</p>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="filter('all', this)">All projects</button>
+  <button class="filter-btn" onclick="filter('beginner', this)">Beginner</button>
+  <button class="filter-btn" onclick="filter('intermediate', this)">Intermediate</button>
+  <button class="filter-btn" onclick="filter('advanced', this)">Advanced</button>
+  <button class="filter-btn" onclick="filter('portfolio', this)">Portfolio-worthy</button>
+</div>
+
+<div class="grid" id="grid">
+
+  <div class="card" data-level="beginner" data-tags="portfolio">
+    <div class="card-top">
+      <div class="card-title">S3 bucket misconfiguration scanner</div>
+      <span class="badge badge-beg">Beginner</span>
+    </div>
+    <div class="card-desc">Python + boto3 script that audits S3 buckets for public ACLs, missing encryption, versioning off, and no access logging. Outputs a JSON report.</div>
+    <div class="card-meta">
+      <span class="tag">Python</span><span class="tag">boto3</span><span class="tag">S3</span><span class="tag">IAM</span>
+      <span class="phase-pill">Phase 1–2</span>
+    </div>
+    <div class="card-footer">
+      <button class="action-btn">Get code</button>
+      <button class="action-btn">Blog guide</button>
+    </div>
+  </div>
+
+  <div class="card" data-level="beginner" data-tags="">
+    <div class="card-top">
+      <div class="card-title">IAM policy auditor</div>
+      <span class="badge badge-beg">Beginner</span>
+    </div>
+    <div class="card-desc">Enumerate all IAM users, roles, and policies. Flag overprivileged roles (wildcard actions, AdministratorAccess attachments), and generate a risk report.</div>
+    <div class="card-meta">
+      <span class="tag">Python</span><span class="tag">boto3</span><span class="tag">IAM</span>
+      <span class="phase-pill">Phase 2</span>
+    </div>
+    <div class="card-footer">
+      <button class="action-btn">Get code</button>
+      <button class="action-btn">Related CVEs</button>
+    </div>
+  </div>
+
+  <div class="card" data-level="beginner" data-tags="">
+    <div class="card-top">
+      <div class="card-title">AWS security group analyser</div>
+      <span class="badge badge-beg">Beginner</span>
+    </div>
+    <div class="card-desc">Scan all VPC security groups for dangerous rules — port 22/3389 open to 0.0.0.0/0, unrestricted egress, and unused groups. Export findings as CSV.</div>
+    <div class="card-meta">
+      <span class="tag">Python</span><span class="tag">boto3</span><span class="tag">VPC</span><span class="tag">EC2</span>
+      <span class="phase-pill">Phase 1–2</span>
+    </div>
+    <div class="card-footer">
+      <button class="action-btn">Get code</button>
+      <button class="action-btn">Learn more</button>
+    </div>
+  </div>
+
+  <div class="card" data-level="intermediate" data-tags="portfolio">
+    <div class="card-top">
+      <div class="card-title">CloudTrail anomaly detector</div>
+      <span class="badge badge-int">Intermediate</span>
+    </div>
+    <div class="card-desc">Parse CloudTrail logs to detect suspicious patterns: IAM key creation outside hours, console logins from new IPs, bulk S3 deletes, and assume-role chains.</div>
+    <div class="card-meta">
+      <span class="tag">Python</span><span class="tag">CloudTrail</span><span class="tag">CloudWatch</span><span class="tag">JSON parsing</span>
+      <span class="phase-pill">Phase 2–3</span>
+    </div>
+    <div class="card-footer">
+      <button class="action-btn">Get code</button>
+      <button class="action-btn">Attack patterns</button>
+    </div>
+  </div>
+
+  <div class="card" data-level="intermediate" data-tags="portfolio">
+    <div class="card-top">
+      <div class="card-title">IMDS SSRF lab + exploit</div>
+      <span class="badge badge-int">Intermediate</span>
+    </div>
+    <div class="card-desc">Build a vulnerable EC2 app with IMDSv1 enabled, then write an SSRF exploit to steal IAM credentials via 169.254.169.254. Document IMDSv2 mitigation.</div>
+    <div class="card-meta">
+      <span class="tag">EC2</span><span class="tag">Python Flask</span><span class="tag">Burp Suite</span><span class="tag">SSRF</span>
+      <span class="phase-pill">Phase 3</span>
+    </div>
+    <div class="card-footer">
+      <button class="action-btn">Get code</button>
+      <button class="action-btn">Case study</button>
+    </div>
+  </div>
+
+  <div class="card" data-level="intermediate" data-tags="">
+    <div class="card-top">
+      <div class="card-title">Exposed secrets scanner</div>
+      <span class="badge badge-int">Intermediate</span>
+    </div>
+    <div class="card-desc">Tool that scans public GitHub repos, S3 bucket objects, and Lambda env vars for leaked AWS keys, tokens, and credentials using pattern matching + entropy analysis.</div>
+    <div class="card-meta">
+      <span class="tag">Python</span><span class="tag">GitHub API</span><span class="tag">boto3</span><span class="tag">Regex</span>
+      <span class="phase-pill">Phase 2–3</span>
+    </div>
+    <div class="card-footer">
+      <button class="action-btn">Get code</button>
+      <button class="action-btn">Existing tools</button>
+    </div>
+  </div>
+
+  <div class="card" data-level="intermediate" data-tags="">
+    <div class="card-top">
+      <div class="card-title">Lambda function security auditor</div>
+      <span class="badge badge-int">Intermediate</span>
+    </div>
+    <div class="card-desc">Audit Lambda functions for overprivileged execution roles, plaintext secrets in env vars, outdated runtimes, and public function URLs without auth.</div>
+    <div class="card-meta">
+      <span class="tag">Python</span><span class="tag">boto3</span><span class="tag">Lambda</span><span class="tag">IAM</span>
+      <span class="phase-pill">Phase 3</span>
+    </div>
+    <div class="card-footer">
+      <button class="action-btn">Get code</button>
+      <button class="action-btn">Learn more</button>
+    </div>
+  </div>
+
+  <div class="card" data-level="advanced" data-tags="portfolio">
+    <div class="card-top">
+      <div class="card-title">IAM privilege escalation mapper</div>
+      <span class="badge badge-adv">Advanced</span>
+    </div>
+    <div class="card-desc">Graph-based tool (like PMapper) that maps all IAM permission paths leading to privilege escalation. Visualises attack paths from any principal to Admin access.</div>
+    <div class="card-meta">
+      <span class="tag">Python</span><span class="tag">NetworkX</span><span class="tag">boto3</span><span class="tag">IAM</span><span class="tag">Graph theory</span>
+      <span class="phase-pill">Phase 3</span>
+    </div>
+    <div class="card-footer">
+      <button class="action-btn">Get code</button>
+      <button class="action-btn">All techniques</button>
+    </div>
+  </div>
+
+  <div class="card" data-level="advanced" data-tags="portfolio">
+    <div class="card-top">
+      <div class="card-title">Full AWS attack chain automation</div>
+      <span class="badge badge-adv">Advanced</span>
+    </div>
+    <div class="card-desc">Python tool automating a full red team chain on a lab AWS env: recon → IAM enum → assume-role escalation → persistence via backdoor user → S3 exfil. Generates a pentest report.</div>
+    <div class="card-meta">
+      <span class="tag">Python</span><span class="tag">Pacu</span><span class="tag">boto3</span><span class="tag">CloudFox</span><span class="tag">ScoutSuite</span>
+      <span class="phase-pill">Phase 3–4</span>
+    </div>
+    <div class="card-footer">
+      <button class="action-btn">Get code</button>
+      <button class="action-btn">Report template</button>
+    </div>
+  </div>
+
+  <div class="card" data-level="advanced" data-tags="">
+    <div class="card-top">
+      <div class="card-title">Container image vulnerability scanner</div>
+      <span class="badge badge-adv">Advanced</span>
+    </div>
+    <div class="card-desc">CI/CD pipeline integration that scans ECR Docker images for CVEs using Trivy, blocks deployment if critical CVEs found, and posts results to Slack.</div>
+    <div class="card-meta">
+      <span class="tag">Python</span><span class="tag">Trivy</span><span class="tag">ECR</span><span class="tag">GitHub Actions</span><span class="tag">Docker</span>
+      <span class="phase-pill">Phase 3–4</span>
+    </div>
+    <div class="card-footer">
+      <button class="action-btn">Get code</button>
+      <button class="action-btn">Learn more</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function filter(level, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(card => {
+    if (level === 'all') { card.classList.remove('hidden'); return; }
+    if (level === 'portfolio') {
+      card.classList.toggle('hidden', !card.dataset.tags.includes('portfolio'));
+    } else {
+      card.classList.toggle('hidden', card.dataset.level !== level);
+    }
+  });
+}
+</script>
+
+</body>
+</html>
