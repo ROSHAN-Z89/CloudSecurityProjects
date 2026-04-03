@@ -1,1 +1,1 @@
-# CLoud Security Porjects
+# Cloud Security Projects
